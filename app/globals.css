@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ivory: #f6f1e7; --paper: #fcfaf5; --panel: #efe8da; --line: #e2d8c6; --line2: #d3c7b1;
+  /* --ink3 is darker than the brief's #8D8578, which measured about 3.2:1 on ivory; WCAG AA text needs 4.5:1. */
+  --ink: #1f1d1a; --ink2: #5f594f; --ink3: #6f685c;
+  /* --amber stays the brand accent for fills and focus rings; text and buttons use the darker shades to keep 4.5:1. */
+  --amber: #b8741a; --amber-ink: #8a5410; --amber-btn: #94590f; --honey: #e3ab52; --honeybg: #f6e6c8;
+  --green: #4f6b48; --greenbg: #e1e8da; --terra: #a5432c; --terrabg: #f3ded6;
+  /* Muted terracotta for text on the charcoal section (terra itself is under 3:1 there). */
+  --terra-dark: #e39a84;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-ivory: var(--ivory); --color-paper: var(--paper); --color-panel: var(--panel);
+  --color-line: var(--line); --color-line2: var(--line2);
+  --color-ink: var(--ink); --color-ink2: var(--ink2); --color-ink3: var(--ink3);
+  --color-amber: var(--amber); --color-amber-ink: var(--amber-ink); --color-amber-btn: var(--amber-btn); --color-honey: var(--honey); --color-honeybg: var(--honeybg);
+  --color-green: var(--green); --color-greenbg: var(--greenbg);
+  --color-terra: var(--terra); --color-terrabg: var(--terrabg); --color-terra-dark: var(--terra-dark);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3, .font-display { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; }
+
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* Scrollable regions contain their absolutely positioned children (e.g. sr-only labels), so nothing escapes and widens the page. */
+[role="region"] { position: relative; }
+
+/* Type scale: mobile first, desktop from 768px. Sizes come from the brief. */
+@utility t-hero { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 3.25rem; line-height: 0.98; letter-spacing: -0.025em; @media (width >= 48rem) { font-size: 6rem; } }
+@utility t-h1 { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 2.25rem; line-height: 1.06; letter-spacing: -0.02em; @media (width >= 48rem) { font-size: 3.5rem; } }
+@utility t-h2 { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 1.875rem; line-height: 1.12; letter-spacing: -0.015em; @media (width >= 48rem) { font-size: 2.5rem; } }
+@utility t-h3 { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 1.25rem; line-height: 1.25; @media (width >= 48rem) { font-size: 1.5rem; } }
+@utility t-body-lg { font-size: 1.0625rem; line-height: 1.55; @media (width >= 48rem) { font-size: 1.1875rem; } }
+@utility t-body { font-size: 1rem; line-height: 1.6; }
+@utility t-small { font-size: 0.875rem; line-height: 1.5; }
+@utility t-caption { font-size: 0.78125rem; line-height: 1.45; letter-spacing: 0.005em; }
+
+/* Signature motion: arrows draw in once (600ms). Reduced motion shows them fully drawn, no animation. */
+.draw path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 600ms ease-out; }
+.draw path + path { transition-delay: 450ms; transition-duration: 200ms; }
+.is-drawn .draw path { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: reduce) { .draw path { transition: none; stroke-dashoffset: 0; } }
+
+/* Entrances: fade up 12px, 450ms, 60ms stagger, once. Only active once JS has run, so nothing hides without it. */
+.reveal-on [data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity 450ms ease-out, transform 450ms ease-out; transition-delay: calc(var(--i, 0) * 60ms); }
+.reveal-on [data-reveal].in { opacity: 1; transform: none; }
+
+/* Seal flip (illustration): a 3D card turn. */
+.flip { transition: transform 500ms ease-in-out; transform-style: preserve-3d; }
+.flip.flipped { transform: rotateY(180deg); }
+.flip > * { backface-visibility: hidden; }
+.flip > :last-child { transform: rotateY(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .flip { transition: none; }
+}
+
+/* Layout: 1200px max, 24px gutters, 72px / 120px section padding. */
+@utility wrap { width: 100%; max-width: 75rem; margin-inline: auto; padding-inline: 1.25rem; @media (width >= 48rem) { padding-inline: 1.5rem; } }
+@utility section-pad { padding-block: 4.5rem; @media (width >= 48rem) { padding-block: 7.5rem; } }
+@utility grid-12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; }

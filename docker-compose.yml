@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:17
+    environment: { POSTGRES_USER: nectara, POSTGRES_PASSWORD: nectara, POSTGRES_DB: nectara }
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+  app:
+    build: .
+    depends_on: [db]
+    ports: ["3000:3000"]
+    environment:
+      NECTARA_DEMO: "false"
+      DATABASE_URL: postgresql://nectara:nectara@db:5432/nectara
+      AUTH_SECRET: ${AUTH_SECRET:?set AUTH_SECRET}
+      QR_SECRET: ${QR_SECRET:?set QR_SECRET}
+volumes:
+  pgdata:

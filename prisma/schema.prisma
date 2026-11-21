@@ -1,0 +1,327 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  KEEPER
+  COLLECTOR
+  LAB
+  PROCESSOR
+  DISTRIBUTOR
+  INVESTIGATOR
+  ADMIN
+}
+
+enum EventType {
+  HIVE
+  HARVEST
+  COLLECTION
+  QUALITY_TEST
+  PROCESSING
+  BLENDING
+  PACKAGING
+  SHIPMENT
+  RETAIL
+}
+
+enum LabStatus {
+  IN_PROGRESS
+  PASSED
+  FAILED
+}
+
+enum HealthState {
+  STABLE
+  WATCH
+  STRESSED
+  CRITICAL
+}
+
+enum RiskBand {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum AnchorNetwork {
+  SIMULATED
+  POLYGON_AMOY
+}
+
+model Organisation {
+  id        String   @id @default(cuid())
+  name      String
+  kind      Role
+  createdAt DateTime @default(now())
+  users     User[]
+  farms     Farm[]
+}
+
+model User {
+  id            String              @id @default(cuid())
+  email         String              @unique
+  name          String
+  role          Role
+  passwordHash  String
+  orgId         String
+  org           Organisation        @relation(fields: [orgId], references: [id])
+  createdAt     DateTime            @default(now())
+  notifications Notification[]
+  cases         InvestigationCase[]
+}
+
+model Farm {
+  id       String       @id @default(cuid())
+  name     String
+  region   String
+  state    String
+  orgId    String
+  org      Organisation @relation(fields: [orgId], references: [id])
+  hives    Hive[]
+  batches  Batch[]
+  harvests Harvest[]
+}
+
+model Hive {
+  id          String        @id @default(cuid())
+  code        String        @unique
+  farmId      String
+  farm        Farm          @relation(fields: [farmId], references: [id])
+  healthState HealthState
+  healthScore Int
+  trustLevel  Int
+  readings    HiveReading[]
+  inspections Inspection[]
+  harvests    Harvest[]
+}
+
+// Each sensor channel is optional: a hive may report only temperature and humidity.
+model HiveReading {
+  id       String   @id @default(cuid())
+  hiveId   String
+  hive     Hive     @relation(fields: [hiveId], references: [id])
+  at       DateTime
+  tempC    Float?
+  humidity Float?
+  weightKg Float?
+  activity Float?
+  soundDb  Float?
+}
+
+model Inspection {
+  id           String   @id @default(cuid())
+  hiveId       String
+  hive         Hive     @relation(fields: [hiveId], references: [id])
+  at           DateTime
+  queenSeen    Boolean
+  broodPattern String
+  notes        String
+}
+
+model Harvest {
+  id           String   @id @default(cuid())
+  hiveId       String
+  hive         Hive     @relation(fields: [hiveId], references: [id])
+  farmId       String
+  farm         Farm     @relation(fields: [farmId], references: [id])
+  harvestedAt  DateTime
+  kg           Float
+  floralSource String
+  batches      Batch[]
+}
+
+model Batch {
+  id        String             @id @default(cuid())
+  code      String             @unique
+  honeyType String
+  kg        Float
+  farmId    String
+  farm      Farm               @relation(fields: [farmId], references: [id])
+  harvestId String?
+  harvest   Harvest?           @relation(fields: [harvestId], references: [id])
+  createdAt DateTime           @default(now())
+  events    BatchEvent[]
+  asParent  BatchLineage[]     @relation("parent")
+  asChild   BatchLineage[]     @relation("child")
+  custody   CustodyTransfer[]
+  tests     QualityTest[]
+  documents Document[]
+  risks     RiskScore[]
+  alerts    Alert[]
+  anchors   BlockchainAnchor[]
+  qrTokens  QRToken[]
+  shipments Shipment[]
+}
+
+// Append-only: no update or delete path exists in code (enforced in Phase 4).
+model BatchEvent {
+  id        String    @id @default(cuid())
+  batchId   String
+  batch     Batch     @relation(fields: [batchId], references: [id])
+  type      EventType
+  payload   Json
+  actorId   String
+  createdAt DateTime
+  prevHash  String
+  hash      String
+
+  @@unique([batchId, prevHash]) // a chain tip can be extended once
+  @@index([batchId, createdAt])
+}
+
+model BatchLineage {
+  id       String @id @default(cuid())
+  parentId String
+  parent   Batch  @relation("parent", fields: [parentId], references: [id])
+  childId  String
+  child    Batch  @relation("child", fields: [childId], references: [id])
+  ratioPct Float
+}
+
+model CustodyTransfer {
+  id        String   @id @default(cuid())
+  batchId   String
+  batch     Batch    @relation(fields: [batchId], references: [id])
+  fromOrgId String
+  toOrgId   String
+  at        DateTime
+  note      String   @default("")
+}
+
+// A certificate belongs to exactly one batch; certificateRef is globally unique.
+model QualityTest {
+  id             String     @id @default(cuid())
+  batchId        String
+  batch          Batch      @relation(fields: [batchId], references: [id])
+  labRef         String     @unique
+  status         LabStatus
+  certificateRef String?    @unique
+  results        Json
+  testedAt       DateTime?
+  documents      Document[]
+}
+
+model Document {
+  id            String       @id @default(cuid())
+  batchId       String?
+  batch         Batch?       @relation(fields: [batchId], references: [id])
+  qualityTestId String?
+  qualityTest   QualityTest? @relation(fields: [qualityTestId], references: [id])
+  kind          String
+  filename      String
+  sha256        String
+}
+
+model RiskScore {
+  id             String   @id @default(cuid())
+  batchId        String
+  batch          Batch    @relation(fields: [batchId], references: [id])
+  score          Int
+  band           RiskBand
+  ruleSetVersion String
+  reasons        Json
+  createdAt      DateTime @default(now())
+}
+
+model Alert {
+  id         String    @id @default(cuid())
+  kind       String
+  severity   RiskBand
+  message    String
+  batchId    String?
+  batch      Batch?    @relation(fields: [batchId], references: [id])
+  incidentId String?
+  incident   Incident? @relation(fields: [incidentId], references: [id])
+  createdAt  DateTime
+}
+
+model Incident {
+  id       String              @id @default(cuid())
+  title    String
+  band     RiskBand
+  status   String
+  openedAt DateTime
+  alerts   Alert[]
+  cases    InvestigationCase[]
+}
+
+model InvestigationCase {
+  id         String   @id @default(cuid())
+  incidentId String
+  incident   Incident @relation(fields: [incidentId], references: [id])
+  assigneeId String?
+  assignee   User?    @relation(fields: [assigneeId], references: [id])
+  status     String
+  notes      String   @default("")
+}
+
+model BlockchainAnchor {
+  id         String        @id @default(cuid())
+  batchId    String
+  batch      Batch         @relation(fields: [batchId], references: [id])
+  merkleRoot String
+  eventIds   String[]
+  network    AnchorNetwork
+  txRef      String?
+  anchoredAt DateTime
+}
+
+model QRToken {
+  id        String    @id @default(cuid())
+  batchId   String
+  batch     Batch     @relation(fields: [batchId], references: [id])
+  token     String    @unique
+  signature String
+  issuedAt  DateTime
+  revokedAt DateTime?
+  scans     QRScan[]
+}
+
+model QRScan {
+  id        String   @id @default(cuid())
+  tokenId   String
+  token     QRToken  @relation(fields: [tokenId], references: [id])
+  city      String? // coarse location only, never precise
+  scannedAt DateTime
+}
+
+model Shipment {
+  id          String   @id @default(cuid())
+  batchId     String
+  batch       Batch    @relation(fields: [batchId], references: [id])
+  carrier     String
+  origin      String
+  destination String
+  status      String
+  shippedAt   DateTime
+}
+
+model Notification {
+  id      String    @id @default(cuid())
+  userId  String
+  user    User      @relation(fields: [userId], references: [id])
+  message String
+  readAt  DateTime?
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String
+  target    String
+  createdAt DateTime @default(now())
+}
+
+model AIAnalysis {
+  id          String   @id @default(cuid())
+  subjectType String
+  subjectId   String
+  language    String
+  output      String
+  model       String
+  createdAt   DateTime @default(now())
+}
