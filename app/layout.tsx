@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   applicationName: "Nectara",
   openGraph: { type: "website", siteName: "Nectara", title: "Nectara: proof in every jar", description: DESCRIPTION, locale: "en_IN" },
   twitter: { card: "summary_large_image", title: "Nectara: proof in every jar", description: DESCRIPTION },
+  // Private demo: never indexed. Backed by robots.txt and an X-Robots-Tag header on every response.
+  robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } },
 };
 
 export const viewport = { themeColor: "#F6F1E7" };

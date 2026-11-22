@@ -1,10 +1,7 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site";
 
+// The hosted demo is private: no crawler may fetch any page. Every response also carries
+// X-Robots-Tag: noindex, nofollow (next.config.ts), which keeps out pages a crawler reaches through outside links.
 export default function robots(): MetadataRoute.Robots {
-  return {
-    // Individual verify results are personal scans and stay out of search (they also carry noindex).
-    rules: { userAgent: "*", allow: ["/", "/verify$", "/login"], disallow: ["/api/", "/design", "/verify/", "/dashboard", "/hives", "/batches", "/harvests", "/lab", "/custody", "/shipments", "/risk", "/incidents", "/admin"] },
-    sitemap: `${SITE_URL}/sitemap.xml`,
-  };
+  return { rules: { userAgent: "*", disallow: "/" } };
 }

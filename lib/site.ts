@@ -1,2 +1,2 @@
-/** Public base URL for absolute links (Open Graph, sitemap). Set NEXT_PUBLIC_SITE_URL in production. */
+/** Public base URL for absolute links (Open Graph). Set NEXT_PUBLIC_SITE_URL in production. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
