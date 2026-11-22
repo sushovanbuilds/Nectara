@@ -67,8 +67,30 @@ npm run build; npm start
 | `AUTH_SECRET` | Signs session cookies. **Required in production.** |
 | `QR_SECRET` | Signs QR labels. **Required in production, and must differ from `AUTH_SECRET`.** |
 | `DATABASE_URL` | Postgres connection string (database mode only). |
+| `GEMINI_API_KEY` | Optional. Turns on AI answers and semantic search. Free key at aistudio.google.com/apikey. |
+| `GROQ_API_KEY` | Optional. AI answers via Groq, used as the fallback (or first, with `AI_PROVIDER=groq`). Free key at console.groq.com/keys. |
+| `GEMINI_MODEL`, `GROQ_MODEL`, `GEMINI_EMBED_MODEL` | Optional model overrides. Defaults: `gemini-3.1-flash-lite`, `openai/gpt-oss-120b` (low reasoning), `gemini-embedding-001`. |
+| `RATE_LIMIT_MULTIPLIER` | Optional. Multiplies every rate limit, for load tests (the e2e suite uses 100). Values below 1 are ignored, so limits can be raised but never removed. |
 
 Generate secrets with `openssl rand -hex 32`. A production build without them refuses to start, on purpose.
+
+## Rate limits
+
+Every limit is a sliding window in `lib/rate-limit.ts`. A refused request gets a `429` with a `Retry-After` header and a plain message ("Too many sign-in attempts. Try again in 40 seconds.").
+
+| What | Limit | Keyed by | Where |
+|---|---|---|---|
+| Sign-in attempts | 10 a minute | IP address | `/api/auth/login` |
+| Failed sign-ins | 5 per 15 minutes, cleared on success | account and IP together, so an attacker elsewhere cannot lock out a real user | `/api/auth/login` |
+| Any API call | 120 a minute | user | `authorize()`, so every route |
+| Writes to the record | 30 a minute | user | `writeRoute()`, so every write route |
+| AI answers and summaries | 8 a minute | user | `/api/ai/ask`, `/api/ai/explain` |
+| Public label checks | 30 a minute | IP address | `/verify/[code]`, before a scan is recorded |
+
+Two caveats:
+
+- Counters live in memory per server process. They reset on restart and are not shared across instances. Move the store to Redis or Postgres before running more than one instance.
+- Per-IP limits read `x-forwarded-for`, so run behind a proxy that sets it (Vercel and nginx do). Without one, every visitor counts as the same "unknown" address and shares a single sign-in and verify allowance, and a directly exposed server can be sent a spoofed header.
 
 ## Scripts
 
@@ -142,7 +164,15 @@ Key design points:
 
 Consumers need no account.
 
-## Demo script (about 7 minutes)
+## Guided tour (for judges)
+
+Open **`/tour`** (linked from the landing hero, the landing nav and the login page) and press *Start the tour*. It has 10 stops and takes about 8 minutes. Each stop signs you in as the right demo role and opens the right page. A honey-coloured strip under the header shows "Do this" and "Notice" for that page, with Back, Next, All stops and Exit. The Back and Next row stays in view while you scroll.
+
+- The stops live in `lib/tour.ts`, and `tests/tour.test.ts` checks that every page, role and sample code a stop names really exists.
+- Switching roles goes through `POST /tour/[n]`: demo mode only, never triggered by link prefetching, and rate-limited like sign-in.
+- The tour shows nowhere outside demo mode.
+
+## Demo script, by hand (about 7 minutes)
 
 1. **Landing** (`/`). Read the two-claims section: lab evidence versus record seal. Click *Try the demo*.
 2. **Keeper** (`ravi@demo.nectara`). Dashboard: hive health ring, harvest by month, needs attention. Open hive **A-106** (Watch): read *Why this state*, the trust ladder, then move the *What if* sliders (+3 °C for 5 days).
@@ -154,6 +184,22 @@ Consumers need no account.
 8. **Broken seal.** As keeper, open batch **HC-2026-00118**: *Broken: record changed after sealing*, naming the first mismatching event. Compare with **HC-2026-00124** (Intact).
 9. **Investigator** (`investigator@demo.nectara`). Risk: run the engine, expand *Why this score*, open the incident around Himalayan Honey Lab, open a case and add a note.
 10. **Admin** (`admin@demo.nectara`). The role matrix and audit log show everything that was just done.
+
+## AI assistant (optional)
+
+Two features, both off until a free Gemini or Groq key is set:
+
+- **Ask Nectara** (the Ask button in the app's top bar): answers questions from the records the signed-in role may open, cites each record by number and links to it. Answers in English, Bengali or Hindi.
+- **Plain-language summaries:** "In plain words" on a hive page for keepers, and "Case brief" on an incident page for investigators. They are written only from the rule engine's output shown on the same page.
+
+How it works (`lib/ai`):
+
+1. **Corpus** (`corpus.ts`): every batch, hive, incident and product guide is turned into a short text record. The corpus is built per request from the role's own permissions: a lab never retrieves hive data, and only investigators retrieve incidents and risk scores.
+2. **Retrieval** (`rag.ts`): BM25 keyword ranking, plus Gemini embeddings when `GEMINI_API_KEY` is set, merged with reciprocal rank fusion. A record code in the question (`HC-2026-00124`, `A-105`) always ranks first. Embeddings are cached by content hash, so a record is embedded once until it changes.
+3. **Generation** (`providers.ts`): one OpenAI-compatible `fetch` client for Gemini and Groq, with no SDK dependency. Gemini answers first and Groq takes over on a rate limit, error or timeout. The prompt allows answers only from the numbered sources, tells the model to treat them as data rather than instructions, and repeats the integrity rules: a seal never proves purity, and a risk score is not a verdict.
+4. **Limits:** 8 AI requests a minute per user (see Rate limits), a 500-character question cap, a 25 s timeout, and an audit row for every answer.
+
+Without a key, Ask Nectara still returns the matching records, found by keywords, and the summary cards say AI is not set up. **Privacy:** with a key set, the retrieved records (batch, hive and incident text, with organisation names but no emails or personal user names) are sent to Google or Groq. Check their data terms before using real data.
 
 ## API
 
@@ -180,5 +226,4 @@ The build runs `prisma generate` through `postinstall`, so no database is needed
 - Clone detection compares city names inside a 6-hour window rather than distances. City comes from the Vercel `x-vercel-ip-city` header, so it is empty locally.
 - Hive health thresholds, the flowering-season table and lab limits are rule-of-thumb data, kept in `lib/hiveos.ts` and `lib/risk.ts`. Have a domain expert review them before real use.
 - Lab certificates are recorded by reference and values; file upload is not built.
-- Login has no rate limiting yet.
-- The optional AI advisor (phase 11) is not built; the app is fully functional without it.
+- The AI assistant is optional and the app is fully functional without it. Bengali and Hindi text uses the device's system fonts, because the bundled Inter covers Latin only.

@@ -21,7 +21,7 @@ export function Toaster() {
   return (
     <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-20 z-50 flex flex-col items-center gap-2 px-4 md:bottom-6">
       {items.map((t) => (
-        <p key={t.id} className="t-small pointer-events-auto rounded-[10px] bg-ink px-4 py-3 text-ivory shadow-[0_12px_32px_-12px_rgba(31,29,26,0.5)]">{t.message}</p>
+        <p key={t.id} className="t-small pointer-events-auto rounded-[10px] bg-ink px-4 py-3 text-ivory">{t.message}</p>
       ))}
     </div>
   );

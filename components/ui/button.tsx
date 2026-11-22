@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { cx } from "@/lib/cx";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const VARIANT: Record<Variant, string> = {
   primary: "bg-ink text-ivory hover:bg-[#33302b]",
   secondary: "border border-line2 bg-paper text-ink hover:bg-panel",
   ghost: "text-ink hover:bg-panel",
+  // Destructive actions only (revoke). Terracotta is the "bad" status colour.
+  danger: "border border-terra bg-paper text-terra hover:bg-terrabg",
 };
 // md and lg meet the 44px touch-target minimum.
 const SIZE: Record<Size, string> = { sm: "min-h-9 px-3 text-sm", md: "min-h-11 px-5 text-sm", lg: "min-h-13 px-6 text-base" };

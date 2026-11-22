@@ -10,6 +10,9 @@ const PATHS = {
   admin: <><circle cx="9" cy="8.5" r="3.2" /><path d="M3 20c0-3.2 2.7-5.3 6-5.3s6 2.1 6 5.3" /><path d="M15.5 4.6a3.2 3.2 0 010 7.8" /><path d="M18 15.2c1.9.6 3 2.3 3 4.8" /></>,
   verify: <><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><path d="M14 14h2.5v2.5H14zM19 14h1M14 19.5h2.5M19 18v2" /></>,
   search: <><circle cx="11" cy="11" r="6.5" /><path d="M20 20l-4.4-4.4" /></>,
+  chevron: <path d="M6 9.5l6 6 6-6" />,
+  check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  ask:<><path d="M5 5.5h14a1.5 1.5 0 011.5 1.5v8.5A1.5 1.5 0 0119 17h-7.5L7 20.5V17H5a1.5 1.5 0 01-1.5-1.5V7A1.5 1.5 0 015 5.5z" /><path d="M8 10h8M8 13h5" /></>,
   logout: <><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4" /><path d="M10 16l-4-4 4-4" /><path d="M6 12h10" /></>,
   more: <><circle cx="5.5" cy="12" r="1.2" /><circle cx="12" cy="12" r="1.2" /><circle cx="18.5" cy="12" r="1.2" /></>,
 } as const;

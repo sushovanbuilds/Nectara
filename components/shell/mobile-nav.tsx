@@ -41,13 +41,13 @@ export function MobileNav({ items, user }: { items: NavItem[]; user: { name: str
       <dialog ref={sheet} aria-label="All pages" className="m-0 mt-auto max-h-[85dvh] w-full max-w-none rounded-t-2xl bg-paper p-0 text-ink backdrop:bg-ink/40 md:hidden">
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <p className="t-h3">Menu</p>
-          <button type="button" onClick={() => sheet.current?.close()} className="min-h-11 rounded-md px-3 t-small font-medium hover:bg-panel">Close</button>
+          <button type="button" onClick={() => sheet.current?.close()} className="min-h-11 rounded-[10px] px-3 t-small font-medium hover:bg-panel">Close</button>
         </div>
         <ul className="divide-y divide-line px-2">
           {items.map(({ href, label, icon }) => (
             <li key={href}>
               <Link href={href} onClick={() => sheet.current?.close()} aria-current={isActive(path, href) ? "page" : undefined}
-                className="flex min-h-12 items-center gap-3 rounded-md px-3 t-body hover:bg-panel">
+                className="flex min-h-12 items-center gap-3 rounded-[10px] px-3 t-body hover:bg-panel">
                 <Icon name={icon} className="size-5 text-ink2" />{label}
               </Link>
             </li>
@@ -55,7 +55,7 @@ export function MobileNav({ items, user }: { items: NavItem[]; user: { name: str
         </ul>
         <div className="flex items-center justify-between gap-3 border-t border-line px-5 py-4">
           <p className="t-small"><span className="font-medium">{user.name}</span> <span className="text-ink2">· {user.role}</span></p>
-          <LogoutButton className="min-h-11 rounded-md border border-line2 px-4 t-small hover:bg-panel" />
+          <LogoutButton className="min-h-11 rounded-[10px] border border-line2 px-4 t-small hover:bg-panel" />
         </div>
       </dialog>
     </>

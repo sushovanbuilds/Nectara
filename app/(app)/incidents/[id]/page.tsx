@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { ExplainCard } from "@/components/ai/explain-card";
 import { CasePanel } from "@/components/case-panel";
+import { aiConfigured } from "@/lib/ai/providers";
 import { Denied } from "@/components/denied";
 import { BandChip, Explain, RISK_NOTE } from "@/components/risk-ui";
 import { PageHeader } from "@/components/shell/page-header";
@@ -69,7 +71,10 @@ export default async function IncidentPage(props: PageProps<"/incidents/[id]">) 
           ))}
         </div>
 
-        <aside>{can(s.role, "case:manage") ? <CasePanel incidentId={id} cases={cases} /> : <Card><p className="t-small text-ink2">Cases are worked by investigators.</p></Card>}</aside>
+        <aside className="space-y-6">
+          {can(s.role, "case:manage") ? <CasePanel incidentId={id} cases={cases} /> : <Card><p className="t-small text-ink2">Cases are worked by investigators.</p></Card>}
+          <ExplainCard kind="incident" refId={id} configured={aiConfigured()} title="Case brief" intro="What the alerts share, which batches are involved and what to check first. A starting point, not a finding." />
+        </aside>
       </div>
     </>
   );

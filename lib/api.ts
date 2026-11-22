@@ -1,6 +1,7 @@
 import type { Action } from "./auth/capabilities";
 import { authorize } from "./auth/guard";
 import type { Session } from "./auth/session";
+import { hit, tooMany } from "./rate-limit";
 import { getRepo, type Repository } from "./repo";
 import { TraceError } from "./trace";
 
@@ -13,6 +14,8 @@ export async function writeRoute(
 ): Promise<Response> {
   const a = await authorize(action);
   if (!a.ok) return a.res;
+  const w = hit("write", a.session.uid);
+  if (!w.ok) return tooMany(w.retryAfter, "changes at once");
   const body = (await req.json().catch(() => null)) as Record<string, unknown> | null;
   if (!body || typeof body !== "object") return Response.json({ error: "JSON body required" }, { status: 400 });
   const repo = await getRepo();

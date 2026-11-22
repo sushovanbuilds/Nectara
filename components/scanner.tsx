@@ -1,6 +1,5 @@
 "use client";
 
-import jsQR from "jsqr";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { buttonClass } from "@/components/ui/button";
@@ -21,12 +20,17 @@ export function Scanner() {
     let stopped = false;
     const canvas = document.createElement("canvas");
     (async () => {
+      // The decoder (about 130 KB) loads only once someone opens the camera, in parallel with the permission prompt.
+      const decoder = import("jsqr");
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
       } catch {
         setCamera("denied");
         return;
       }
+      const { default: jsQR } = await decoder;
+      // Closed while the permission prompt was open: release the camera.
+      if (stopped) { stream.getTracks().forEach((t) => t.stop()); return; }
       const v = video.current!;
       v.srcObject = stream;
       await v.play();

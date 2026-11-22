@@ -34,3 +34,47 @@ test("phones get a bottom tab bar with a More sheet", async ({ page }) => {
   await expect(sheet.getByRole("link", { name: "Verify a jar" })).toBeVisible();
   await expect(sheet.getByRole("button", { name: "Sign out" })).toBeVisible();
 });
+
+test("Ask Nectara opens from the top bar and returns cited records", async ({ page }) => {
+  await login(page, "ravi@demo.nectara");
+  await page.getByRole("button", { name: "Ask" }).click();
+  const panel = page.getByRole("dialog", { name: "Ask Nectara" });
+  await expect(panel).toBeVisible();
+  await panel.getByLabel("Your question").fill("Has batch HC-2026-00124 been lab tested?");
+  await panel.getByRole("button", { name: "Ask", exact: true }).click();
+  // The e2e server has no AI key, so the panel falls back to matching records; the named batch comes first.
+  await expect(panel.getByRole("link", { name: /Batch HC-2026-00124/ }).first()).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(panel).toBeHidden();
+});
+
+test("the guided tour signs in as each role and can be left at any time", async ({ page }) => {
+  await page.goto("/tour");
+  await page.getByRole("button", { name: "Start the tour" }).click();
+  const bar = page.getByRole("complementary", { name: "Guided tour" });
+  await expect(bar).toContainText("stop 1 of 10");
+  await bar.getByRole("button", { name: "Next" }).click();
+  await page.waitForURL("**/dashboard");
+  await expect(bar).toContainText("as Honey keeper");
+  await expect(page.getByText("Ravi Kumar").first()).toBeVisible();
+  await bar.getByRole("button", { name: "Exit", exact: true }).click();
+  await page.waitForURL("**/tour");
+  await expect(bar).toHaveCount(0);
+});
+
+test("a first-time visitor to the landing page gets the tour once, and buyers never do", async ({ browser }) => {
+  const visitor = await (await browser.newContext()).newPage();
+  await visitor.goto("/");
+  const bar = visitor.getByRole("complementary", { name: "Guided tour" });
+  await expect(bar).toContainText("stop 1 of 10");
+  await bar.getByRole("button", { name: "Exit", exact: true }).click();
+  await visitor.waitForURL("**/tour");
+  await visitor.goto("/");
+  await expect(visitor.getByRole("heading", { name: "Proof in every jar.", exact: true })).toBeVisible();
+  await expect(bar).toHaveCount(0);
+
+  const buyer = await (await browser.newContext()).newPage();
+  await buyer.goto("/verify/sample");
+  await expect(buyer.getByRole("heading", { name: "Label verified" })).toBeVisible();
+  await expect(buyer.getByRole("complementary", { name: "Guided tour" })).toHaveCount(0);
+});

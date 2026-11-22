@@ -9,10 +9,11 @@ const STATE = {
 /** Same status language as every other chip; Critical is the one solid fill so it stands apart from Stressed. */
 export const StateChip = ({ state }: { state: HealthState }) =>
   state === "CRITICAL"
-    ? <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-terra px-3 py-1 text-xs font-medium text-white"><span aria-hidden className="size-1.5 rounded-full bg-white" />Critical</span>
+    ? <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-terra px-3 py-1 font-sans text-xs font-medium tracking-normal text-paper"><span aria-hidden className="size-1.5 rounded-full bg-paper" />Critical</span>
     : <Chip tone={state === "STABLE" ? "green" : state === "WATCH" ? "amber" : "terra"}>{STATE[state][1]}</Chip>;
 
-const COLOR: Record<HealthState, string> = { STABLE: "var(--green)", WATCH: "var(--honey)", STRESSED: "var(--amber)", CRITICAL: "var(--terra)" };
+// Same families as the chips: Stressed is the light terracotta, Critical the solid one.
+const COLOR: Record<HealthState, string> = { STABLE: "var(--green)", WATCH: "var(--honey)", STRESSED: "var(--terra-dark)", CRITICAL: "var(--terra)" };
 
 /** Donut of hives by health state, with a text legend so colour is never the only signal. */
 export function HealthRing({ counts }: { counts: Record<HealthState, number> }) {
@@ -46,7 +47,7 @@ export function TrustLadder({ level, confidence }: { level: number; confidence: 
     <div>
       <ol className="space-y-1.5" aria-label="Trust ladder">
         {LADDER.map((label, i) => (
-          <li key={label} className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm ${i + 1 <= level ? "bg-greenbg text-green" : "bg-panel text-ink3"}`}>
+          <li key={label} className={`flex items-center gap-2 rounded-[10px] px-3 py-1.5 text-sm ${i + 1 <= level ? "bg-greenbg text-green" : "bg-panel text-ink3"}`}>
             <span className="font-medium">{i + 1}</span>{label}{i + 1 === level && <span className="ml-auto text-xs">current</span>}
           </li>
         ))}

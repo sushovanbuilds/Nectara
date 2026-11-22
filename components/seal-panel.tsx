@@ -20,7 +20,7 @@ export function SealPanel({ seal, batchCode, canSeal }: { seal: SealResult; batc
       </div>
       <p className="t-caption mt-1 text-ink3">Has the record been rewritten?</p>
       {seal.state === "BROKEN" && seal.firstMismatch && (
-        <div role="alert" className="mt-4 rounded-md bg-terrabg p-3 text-terra">
+        <div role="alert" className="mt-4 rounded-[10px] bg-terrabg p-3 text-terra">
           <p className="t-small font-medium">Broken: record changed after sealing</p>
           <p className="t-small mt-1">First mismatch: event {seal.firstMismatch.eventId}. {seal.firstMismatch.reason}.</p>
         </div>

@@ -31,7 +31,7 @@ function StepForm({ batchCode, step }: { batchCode: string; step: StepDef }) {
   const id = (fld: Field) => `${step.key}-${fld.name}`;
   return (
     <form onSubmit={submit} className="space-y-3 border-t border-line pt-4 first:border-0 first:pt-0">
-      <h3 className="t-body font-medium">{step.label}</h3>
+      <h3 className="t-body font-sans font-medium">{step.label}</h3>
       {step.fields.map((fld) => (
         <div key={fld.name}>
           <label htmlFor={id(fld)} className="t-small block">{fld.label}{fld.required && <span className="text-terra"> *</span>}</label>

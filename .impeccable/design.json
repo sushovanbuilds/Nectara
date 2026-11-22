@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T04:27:03.889Z",
+  "title": "Design System: Nectara",
+  "extensions": {
+    "colorMeta": {
+      "ivory": {
+        "role": "neutral",
+        "displayName": "Ivory",
+        "canonical": "#f6f1e7",
+        "tonalRamp": [
+          "#3e3c3a",
+          "#6f6c68",
+          "#a09d96",
+          "#d1cdc4",
+          "#f8f4ec",
+          "#faf7f2",
+          "#fcfbf8",
+          "#fefdfc"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#fcfaf5",
+        "tonalRamp": [
+          "#3f3f3d",
+          "#71716e",
+          "#a4a39f",
+          "#d6d5d0",
+          "#fdfbf7",
+          "#fdfcfa",
+          "#fefefc",
+          "#fffefe"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "canonical": "#efe8da",
+        "tonalRamp": [
+          "#3c3a37",
+          "#6c6862",
+          "#9b978e",
+          "#cbc5b9",
+          "#f2ede1",
+          "#f6f2eb",
+          "#faf8f4",
+          "#fdfcfb"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#e2d8c6",
+        "tonalRamp": [
+          "#393632",
+          "#666159",
+          "#938c81",
+          "#c0b8a8",
+          "#e8e0d1",
+          "#efeae0",
+          "#f6f3ee",
+          "#fcfaf8"
+        ]
+      },
+      "line2": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "#d3c7b1",
+        "tonalRamp": [
+          "#35322c",
+          "#5f5a50",
+          "#898173",
+          "#b3a996",
+          "#dcd2c1",
+          "#e7e0d4",
+          "#f2eee8",
+          "#faf8f6"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1f1d1a",
+        "tonalRamp": [
+          "#080707",
+          "#0e0d0c",
+          "#141311",
+          "#1a1916",
+          "#4c4a48",
+          "#848381",
+          "#bcbbba",
+          "#e4e4e4"
+        ]
+      },
+      "ink-hover": {
+        "role": "neutral",
+        "displayName": "Ink Hover",
+        "canonical": "#33302b",
+        "tonalRamp": [
+          "#0d0c0b",
+          "#171613",
+          "#211f1c",
+          "#2b2925",
+          "#5c5955",
+          "#8f8d8a",
+          "#c2c1bf",
+          "#e7e6e6"
+        ]
+      },
+      "ink2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#5f594f",
+        "tonalRamp": [
+          "#181614",
+          "#2b2824",
+          "#3e3a33",
+          "#514c43",
+          "#7f7a72",
+          "#a7a49e",
+          "#cfcdca",
+          "#ecebea"
+        ]
+      },
+      "ink3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#6f685c",
+        "tonalRamp": [
+          "#1c1a17",
+          "#322f29",
+          "#48443c",
+          "#5e584e",
+          "#8c867d",
+          "#b0aca5",
+          "#d4d2ce",
+          "#eeedeb"
+        ]
+      },
+      "amber": {
+        "role": "primary",
+        "displayName": "Hive Amber",
+        "canonical": "#b8741a",
+        "tonalRamp": [
+          "#2e1d07",
+          "#53340c",
+          "#784b11",
+          "#9c6316",
+          "#c69048",
+          "#d8b381",
+          "#ead5ba",
+          "#f6eee4"
+        ]
+      },
+      "amber-ink": {
+        "role": "primary",
+        "displayName": "Deep Comb Amber",
+        "canonical": "#8a5410",
+        "tonalRamp": [
+          "#231504",
+          "#3e2607",
+          "#5a370a",
+          "#75470e",
+          "#a17640",
+          "#bfa17c",
+          "#dcccb7",
+          "#f1eae2"
+        ]
+      },
+      "amber-btn": {
+        "role": "primary",
+        "displayName": "Burnt Amber",
+        "canonical": "#94590f",
+        "tonalRamp": [
+          "#251604",
+          "#432807",
+          "#603a0a",
+          "#7e4c0d",
+          "#a97a3f",
+          "#c4a47b",
+          "#dfcdb7",
+          "#f2ebe2"
+        ]
+      },
+      "honey": {
+        "role": "primary",
+        "displayName": "Light Honey",
+        "canonical": "#e3ab52",
+        "tonalRamp": [
+          "#392b15",
+          "#664d25",
+          "#946f35",
+          "#c19146",
+          "#e9bc75",
+          "#f0d1a0",
+          "#f7e6cb",
+          "#fcf5ea"
+        ]
+      },
+      "honeybg": {
+        "role": "primary",
+        "displayName": "Honey Wash",
+        "canonical": "#f6e6c8",
+        "tonalRamp": [
+          "#3e3a32",
+          "#6f675a",
+          "#a09682",
+          "#d1c4aa",
+          "#f8ebd3",
+          "#faf1e1",
+          "#fcf8ef",
+          "#fefcf8"
+        ]
+      },
+      "green": {
+        "role": "secondary",
+        "displayName": "Field Sage",
+        "canonical": "#4f6b48",
+        "tonalRamp": [
+          "#141b12",
+          "#243020",
+          "#33462f",
+          "#435b3d",
+          "#72896d",
+          "#9eae9a",
+          "#cad3c8",
+          "#eaede9"
+        ]
+      },
+      "greenbg": {
+        "role": "secondary",
+        "displayName": "Sage Wash",
+        "canonical": "#e1e8da",
+        "tonalRamp": [
+          "#383a37",
+          "#656862",
+          "#92978e",
+          "#bfc5b9",
+          "#e7ede1",
+          "#eff2eb",
+          "#f6f8f4",
+          "#fbfcfb"
+        ]
+      },
+      "terra": {
+        "role": "secondary",
+        "displayName": "Fired Terracotta",
+        "canonical": "#a5432c",
+        "tonalRamp": [
+          "#29110b",
+          "#4a1e14",
+          "#6b2c1d",
+          "#8c3925",
+          "#b76956",
+          "#ce988b",
+          "#e4c7c0",
+          "#f4e8e6"
+        ]
+      },
+      "terrabg": {
+        "role": "secondary",
+        "displayName": "Clay Wash",
+        "canonical": "#f3ded6",
+        "tonalRamp": [
+          "#3d3836",
+          "#6d6460",
+          "#9e908b",
+          "#cfbdb6",
+          "#f5e5de",
+          "#f8ede8",
+          "#fbf5f3",
+          "#fefbfa"
+        ]
+      },
+      "terra-dark": {
+        "role": "secondary",
+        "displayName": "Rose Clay",
+        "canonical": "#e39a84",
+        "tonalRamp": [
+          "#392721",
+          "#66453b",
+          "#946456",
+          "#c18370",
+          "#e9ae9d",
+          "#f0c7bb",
+          "#f7e1da",
+          "#fcf3f0"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Hero",
+        "purpose": "The single landing headline. 3.25rem mobile, 6rem from 768px."
+      },
+      "headline": {
+        "displayName": "Headline / H2",
+        "purpose": "Section headings. 1.875rem mobile, 2.5rem from 768px."
+      },
+      "title": {
+        "displayName": "Title / H3",
+        "purpose": "Sub-headings, role names, hive codes. 1.25rem mobile, 1.5rem from 768px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, with tabular numerals."
+      },
+      "label": {
+        "displayName": "Small",
+        "purpose": "Nav links, eyebrows, list labels, button text."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Sources, meta and the Sample data note."
+      }
+    },
+    "shadows": [
+      {
+        "name": "device-lift",
+        "value": "0 24px 48px -24px rgba(31,29,26,0.35)",
+        "purpose": "Phone mockups only."
+      },
+      {
+        "name": "screen-lift",
+        "value": "0 24px 48px -32px rgba(31,29,26,0.3)",
+        "purpose": "Browser mockups only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "reveal",
+        "value": "opacity, transform 450ms ease-out; translateY(12px); 60ms stagger",
+        "purpose": "One-time section entrance; off under reduced motion."
+      },
+      {
+        "name": "draw",
+        "value": "stroke-dashoffset 600ms ease-out",
+        "purpose": "Flow-diagram arrows draw in once."
+      },
+      {
+        "name": "flip",
+        "value": "transform 500ms ease-in-out",
+        "purpose": "Seal card turn in the integrity illustration."
+      },
+      {
+        "name": "colors",
+        "value": "150ms (Tailwind transition-colors)",
+        "purpose": "Button and link hover fills."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink fill, verb label. One per view.",
+      "html": "<button class=\"ds-btn-primary\">Log harvest</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 20px; border:0; border-radius:10px; background:var(--ink); color:var(--ivory); font:500 14px/1 Inter, system-ui, sans-serif; cursor:pointer; transition:background-color 150ms; } .ds-btn-primary:hover { background:#33302b; } .ds-btn-primary:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Paper fill with a strong hairline stroke.",
+      "html": "<button class=\"ds-btn-secondary\">Verify a jar</button>",
+      "css": ".ds-btn-secondary { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 20px; border:1px solid var(--line2); border-radius:10px; background:var(--paper); color:var(--ink); font:500 14px/1 Inter, system-ui, sans-serif; cursor:pointer; transition:background-color 150ms; } .ds-btn-secondary:hover { background:var(--panel); } .ds-btn-secondary:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Text only; panel fill on hover.",
+      "html": "<button class=\"ds-btn-ghost\">Menu</button>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; min-height:44px; padding:0 12px; border:0; border-radius:10px; background:transparent; color:var(--ink); font:500 14px/1 Inter, system-ui, sans-serif; cursor:pointer; transition:background-color 150ms; } .ds-btn-ghost:hover { background:var(--panel); } .ds-btn-ghost:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Label above, paper fill, 44px tall.",
+      "html": "<label class=\"ds-field\">Quantity (kg)<input class=\"ds-input\" type=\"number\" value=\"18.5\"></label>",
+      "css": ".ds-field { display:block; font:400 14px/1.5 Inter, system-ui, sans-serif; color:var(--ink); } .ds-input { display:block; width:100%; margin-top:6px; min-height:44px; padding:0 12px; border:1px solid var(--line2); border-radius:10px; background:var(--paper); color:var(--ink); font:400 16px/1.6 Inter, system-ui, sans-serif; font-variant-numeric:tabular-nums; } .ds-input:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }"
+    },
+    {
+      "name": "Status Chips",
+      "kind": "chip",
+      "refersTo": "chip-green",
+      "description": "One status language: green good, amber in progress, terracotta bad. Always labelled.",
+      "html": "<span class=\"ds-chip ds-chip-green\"><i></i>Verified</span> <span class=\"ds-chip ds-chip-amber\"><i></i>In progress</span> <span class=\"ds-chip ds-chip-terra\"><i></i>Revoked</span>",
+      "css": ".ds-chip { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:9999px; font:500 12px/1.4 Inter, system-ui, sans-serif; white-space:nowrap; } .ds-chip i { width:6px; height:6px; border-radius:9999px; } .ds-chip-green { background:var(--greenbg); color:var(--green); } .ds-chip-green i { background:var(--green); } .ds-chip-amber { background:var(--honeybg); color:var(--amber-ink); } .ds-chip-amber i { background:var(--amber); } .ds-chip-terra { background:var(--terrabg); color:var(--terra); } .ds-chip-terra i { background:var(--terra); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Hairline-bordered paper surface. No shadow.",
+      "html": "<div class=\"ds-card\"><p class=\"ds-card-t\">HC-2026-00124</p><p class=\"ds-card-b\">Mustard honey · 18.5 kg · Seal intact</p></div>",
+      "css": ".ds-card { padding:24px; border:1px solid var(--line); border-radius:10px; background:var(--paper); color:var(--ink); } .ds-card-t { margin:0; font:400 24px/1.25 Fraunces, Georgia, serif; } .ds-card-b { margin:8px 0 0; font:400 14px/1.5 Inter, system-ui, sans-serif; color:var(--ink2); font-variant-numeric:tabular-nums; }"
+    },
+    {
+      "name": "Landing Nav",
+      "kind": "nav",
+      "description": "Wordmark left, ink2 section links, text link and primary button right.",
+      "html": "<nav class=\"ds-nav\"><b>Nectara</b><span><a href=\"#\">How it works</a><a href=\"#\">For beekeepers</a><a href=\"#\">Integrity</a></span><button class=\"ds-nav-cta\">Try the demo</button></nav>",
+      "css": ".ds-nav { display:flex; align-items:center; justify-content:space-between; gap:24px; height:72px; padding:0 24px; border-bottom:1px solid var(--line); background:var(--ivory); } .ds-nav b { font:400 22px/1 Fraunces, Georgia, serif; color:var(--ink); } .ds-nav span { display:flex; gap:32px; } .ds-nav a { font:400 14px/1.5 Inter, system-ui, sans-serif; color:var(--ink2); text-decoration:none; } .ds-nav a:hover { color:var(--ink); } .ds-nav-cta { min-height:44px; padding:0 20px; border:0; border-radius:10px; background:var(--ink); color:var(--ivory); font:500 14px/1 Inter, system-ui, sans-serif; }"
+    },
+    {
+      "name": "Ledger Rows",
+      "kind": "custom",
+      "description": "Italic amber-ink Fraunces numerals beside small text, hairline dividers.",
+      "html": "<ol class=\"ds-ledger\"><li><b>1</b>Manual observation</li><li><b>2</b>Basic sensor</li><li><b>3</b>Multiple sensors</li></ol>",
+      "css": ".ds-ledger { list-style:none; margin:0; padding:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); } .ds-ledger li { display:flex; align-items:baseline; gap:16px; padding:12px 0; font:400 14px/1.5 Inter, system-ui, sans-serif; color:var(--ink2); } .ds-ledger li + li { border-top:1px solid var(--line); } .ds-ledger b { font:italic 400 20px/1 Fraunces, Georgia, serif; color:var(--amber-ink); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Assay Ledger",
+    "overview": "Nectara looks like a record a careful lab would keep: ruled, dated and plainly stated. Warm ivory paper carries a Fraunces serif for headlines and Inter for everything that has to be read or counted. Hairline rules divide content where other systems would use boxes. Numbers are tabular, so figures line up like entries in a ledger.\n\nThe palette is mostly paper and ink. Amber is the brand accent and is used sparingly: fills, focus rings, small numerals and one italic phrase. Status colours are a fixed vocabulary of green, amber and terracotta that always means the same thing on every screen. One charcoal section per page may invert the scheme to set apart the integrity principle.\n\nComponents are warm and sturdy. They use solid ink fills, hairline strokes, 10px corners and touch targets of 44px or more. Density is calm on public pages, with generous section padding, and tighter inside the app, where people work through records.",
+    "keyCharacteristics": [
+      "Ivory paper ground, ink text, amber as a rare accent.",
+      "Fraunces at weight 400 for headings; Inter with tabular numerals for body and data.",
+      "Hairline borders and tonal surfaces instead of shadows.",
+      "One status language: green good, amber in progress, terracotta bad, always with a text label.",
+      "Real sample data in illustrations, framed as phone or browser screens."
+    ],
+    "rules": [
+      {
+        "name": "The Amber Ration Rule",
+        "body": "Amber is an accent, not a surface. On light grounds it appears as fills, rings, dots and small numerals. Text in amber always uses `amber-ink`.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Status Language Rule",
+        "body": "Green means good, amber means in progress and terracotta means bad, everywhere. Colour is never the only signal: every status carries its text label.",
+        "section": "colors"
+      },
+      {
+        "name": "The Neutral Data Rule",
+        "body": "Charts that show composition rather than judgement use ink tints and amber only, so no segment reads as good or bad.",
+        "section": "colors"
+      },
+      {
+        "name": "The Regular Serif Rule",
+        "body": "Fraunces is set at weight 400 only. Emphasis comes from size and italic, never from bold.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ledger Numerals Rule",
+        "body": "Body text uses tabular numerals throughout, so counts, weights and scores align in columns.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline Rule",
+        "body": "Interface surfaces never cast shadows. A card is a 1px `line` border on `paper`. A shadow means \"this is a picture of a screen\", nothing else.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every heading in Fraunces 400, and use italic in `amber-ink` for the one emphasised phrase.",
+      "Do separate content with 1px `line` hairlines and the ivory, paper and panel tonal steps.",
+      "Do use `amber-ink` or `amber-btn` whenever amber carries text, so contrast stays at 4.5:1 or better.",
+      "Do keep every tappable control at 44px or more on phones.",
+      "Do show status with a chip or dot plus its text label, using the shared tone table.",
+      "Do frame product illustrations as phone or browser screens filled with real sample data, and label them.",
+      "Do keep motion to the existing set: a 12px, 450ms fade-up with a 60ms stagger, a 600ms arrow draw and a 500ms seal flip. All of them turn off under reduced motion."
+    ],
+    "donts": [
+      "Don't put shadows on cards, buttons, inputs or panels. Shadows belong to device frames only.",
+      "Don't set text in `amber` (#b8741a) on ivory or paper.",
+      "Don't use green or terracotta for anything other than good or bad status.",
+      "Don't bold Fraunces or use it for body text.",
+      "Don't add a second dark section to a page.",
+      "Don't use gradients, glows or glass panels. The only blur is the scrolled nav backdrop."
+    ]
+  }
+}

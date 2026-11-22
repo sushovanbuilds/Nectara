@@ -3,7 +3,7 @@ import { formatCode } from "@/lib/qr";
 import { getRepo } from "@/lib/repo";
 
 /**
- * "Scan a sample jar": QR codes are signed tokens, so a bare batch code cannot be verified.
+ * "Check a sample jar": QR codes are signed tokens, so a bare batch code cannot be verified.
  * In demo mode this sends visitors to the active label of sample batch HC-2026-00124.
  */
 export async function GET(req: Request) {

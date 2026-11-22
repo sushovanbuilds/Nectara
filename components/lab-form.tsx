@@ -93,8 +93,8 @@ export function LabForm({ batches, defaultBatch }: { batches: LabBatch[]; defaul
         </div>
       </section>
 
-      {error && <p role="alert" className="t-small rounded-md bg-terrabg px-3 py-2 text-terra">{error}</p>}
-      {saved && <p className="t-small rounded-md bg-greenbg px-3 py-2 text-green">{saved}</p>}
+      {error && <p role="alert" className="t-small rounded-[10px] bg-terrabg px-3 py-2 text-terra">{error}</p>}
+      {saved && <p className="t-small rounded-[10px] bg-greenbg px-3 py-2 text-green">{saved}</p>}
       <button disabled={busy} className={buttonClass("primary", "lg")}>{busy ? "Publishing…" : "Publish result"}</button>
     </form>
   );

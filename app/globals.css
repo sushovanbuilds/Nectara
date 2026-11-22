@@ -30,7 +30,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, .font-display { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; }
+/* Base layer, so a utility such as font-sans can still turn an h3 label back to Inter. */
+@layer base {
+  h1, h2, h3 { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; }
+}
+.font-display { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; }
 
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
@@ -63,7 +67,31 @@ h1, h2, h3, .font-display { font-family: var(--font-fraunces), Georgia, serif; f
 .flip > * { backface-visibility: hidden; }
 .flip > :last-child { transform: rotateY(180deg); }
 
+/* Loader: an amber segment runs along a hairline track. */
+.loader-track { position: relative; display: block; width: 7.5rem; height: 2px; overflow: hidden; background: var(--line); }
+.loader-track > span { position: absolute; inset-block: 0; left: 0; width: 40%; background: var(--amber); animation: loader-run 1.1s ease-in-out infinite; }
+@keyframes loader-run { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+
+/* Guided tour card: rises in on each stop, the progress fill glides from the last stop, the body folds open and shut,
+   a ticked step pops, and Next nudges twice once every step is ticked. */
+.tour-in { animation: tour-in 360ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes tour-in { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+.tour-fill { transition: width 700ms cubic-bezier(.2,.8,.2,1); }
+.tour-fold { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 320ms cubic-bezier(.2,.8,.2,1), opacity 220ms ease-out; }
+.tour-fold[data-open="false"] { grid-template-rows: 0fr; opacity: 0; }
+.tour-fold > div { min-height: 0; overflow: hidden; }
+.tour-chev { transition: transform 260ms ease-out; }
+.tour-tick { animation: tour-tick 260ms cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes tour-tick { from { transform: scale(.4); opacity: 0; } }
+.tour-step-text { transition: color 200ms ease-out, text-decoration-color 200ms ease-out; }
+/* The nudge borrows the focus ring (2px amber outline), not a glow. */
+.tour-nudge { animation: tour-nudge 1.2s ease-out 2; }
+@keyframes tour-nudge { 0%, 100% { outline: 2px solid transparent; outline-offset: 2px; } 40% { outline: 2px solid var(--amber); outline-offset: 3px; } }
+
 @media (prefers-reduced-motion: reduce) {
+  .tour-in, .tour-tick, .tour-nudge { animation: none; }
+  .tour-fill, .tour-fold, .tour-chev, .tour-step-text { transition: none; }
+  .loader-track > span { animation: none; transform: translateX(75%); }
   .reveal-on [data-reveal] { opacity: 1; transform: none; transition: none; }
   .flip { transition: none; }
 }

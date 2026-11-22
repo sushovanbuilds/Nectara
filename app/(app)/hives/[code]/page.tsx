@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Denied } from "@/components/denied";
+import { ExplainCard } from "@/components/ai/explain-card";
 import { InspectionForm } from "@/components/inspection-form";
+import { aiConfigured } from "@/lib/ai/providers";
 import { StateChip, TrustLadder } from "@/components/hive-ui";
 import { PageHeader } from "@/components/shell/page-header";
 import { WhatIf } from "@/components/what-if";
@@ -90,6 +92,7 @@ export default async function HivePage(props: PageProps<"/hives/[code]">) {
             <p className="t-caption mt-1 text-ink3">How much evidence stands behind this state</p>
             <div className="mt-4"><TrustLadder level={health.trustLevel} confidence={health.confidence} /></div>
           </Card>
+          <ExplainCard kind="hive" refId={hive.code} configured={aiConfigured()} title="In plain words" intro="A short summary of this hive's state, its causes and what to do next, in English, Bengali or Hindi." />
         </div>
       </div>
 

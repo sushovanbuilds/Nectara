@@ -20,7 +20,7 @@ export const STATUS_TONE: Record<string, Tone> = {
 /** Status chip. Colour is never the only signal: the text label is required. */
 export function Chip({ tone = "neutral", children, className }: { tone?: Tone; children: React.ReactNode; className?: string }) {
   return (
-    <span className={cx("inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap", TONE[tone], className)}>
+    <span className={cx("inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-sans text-xs font-medium tracking-normal whitespace-nowrap", TONE[tone], className)}>
       <span aria-hidden className={cx("size-1.5 rounded-full", DOT[tone])} />
       {children}
     </span>

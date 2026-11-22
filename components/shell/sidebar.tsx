@@ -19,7 +19,7 @@ export function Sidebar({ items, user }: { items: NavItem[]; user: { name: strin
   return (
     <aside className="sticky top-0 hidden h-screen w-16 shrink-0 flex-col bg-ink text-ivory md:flex min-[1100px]:w-[196px]">
       <Link href="/dashboard" className="flex h-16 items-center px-5 font-display text-2xl max-[1099px]:justify-center max-[1099px]:px-0" aria-label="Nectara dashboard">
-        <span aria-hidden>N<span className="max-[1099px]:hidden">ectara</span><span className="text-honey">.</span></span>
+        <span aria-hidden>N<span className="max-[1099px]:hidden">ectara</span></span>
       </Link>
       <nav aria-label="Main" className="flex-1 overflow-y-auto px-2 py-2">
         <ul className="space-y-0.5">
@@ -29,7 +29,7 @@ export function Sidebar({ items, user }: { items: NavItem[]; user: { name: strin
               <li key={href}>
                 <Link
                   href={href} title={label} aria-current={active ? "page" : undefined}
-                  className={cx("flex min-h-10 items-center gap-3 rounded-md px-3 text-sm max-[1099px]:justify-center max-[1099px]:px-0",
+                  className={cx("flex min-h-10 items-center gap-3 rounded-[10px] px-3 text-sm max-[1099px]:justify-center max-[1099px]:px-0",
                     active ? "bg-white/12 text-ivory" : "text-ivory/80 hover:bg-white/8 hover:text-ivory")}
                 >
                   <Icon name={icon} className="size-[18px] shrink-0" />
@@ -50,7 +50,7 @@ export function Sidebar({ items, user }: { items: NavItem[]; user: { name: strin
             <span className="block text-xs text-ivory/70">{user.role}</span>
           </span>
         </div>
-        <LogoutButton className="mt-2 flex min-h-10 w-full items-center gap-3 rounded-md px-3 text-sm text-ivory/80 hover:bg-white/8 hover:text-ivory max-[1099px]:justify-center max-[1099px]:px-0">
+        <LogoutButton className="mt-2 flex min-h-10 w-full items-center gap-3 rounded-[10px] px-3 text-sm text-ivory/80 hover:bg-white/8 hover:text-ivory max-[1099px]:justify-center max-[1099px]:px-0">
           <Icon name="logout" className="size-[18px] shrink-0" /><span className={rail}>Sign out</span>
         </LogoutButton>
       </div>

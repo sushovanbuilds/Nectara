@@ -47,7 +47,7 @@ export function JourneyMap() {
                 <button
                   type="button" aria-pressed={active === i} aria-controls="journey-detail"
                   onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}
-                  className="group flex flex-col items-center gap-3 rounded-md px-1 pb-1"
+                  className="group flex flex-col items-center gap-3 rounded-[10px] px-1 pb-1"
                 >
                   <span className={cx(
                     "size-6 rounded-full border-2 transition-transform",

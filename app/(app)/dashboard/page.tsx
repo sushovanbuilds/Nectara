@@ -98,19 +98,20 @@ export default async function Dashboard() {
           <h2 id="trend-h" className="t-h3">Harvest by month</h2>
           <p className="t-caption mt-1 text-ink3">Kilograms harvested</p>
           {months.length === 0 ? <p className="t-small mt-6 text-ink2">No harvests yet. Log your first harvest.</p> : (
-            <svg viewBox={`0 0 ${Math.max(months.length, 3) * 80} 150`} className="mt-4 w-full max-w-md" role="img" aria-label={`Harvest by month: ${months.map(([m, kg]) => `${monthName(m)} ${kg} kg`).join(", ")}`}>
-              <line x1="0" x2={Math.max(months.length, 3) * 80} y1="118" y2="118" stroke="var(--line)" />
-              {months.map(([m, kg], i) => {
-                const h = (kg / max) * 86;
-                return (
-                  <g key={m}>
-                    <rect x={i * 80 + 18} y={118 - h} width="44" height={h} rx="3" fill="var(--honey)" />
-                    <text x={i * 80 + 40} y={112 - h} textAnchor="middle" fontSize="11" fill="var(--ink2)">{kg}</text>
-                    <text x={i * 80 + 40} y="136" textAnchor="middle" fontSize="11" fill="var(--ink3)">{monthName(m)}</text>
-                  </g>
-                );
-              })}
-            </svg>
+            // HTML bars rather than a scaled SVG, so labels stay at caption size at every width.
+            <>
+            <div role="img" aria-label={`Harvest by month: ${months.map(([m, kg]) => `${monthName(m)} ${kg} kg`).join(", ")}`} className="mt-6 flex gap-4 border-b border-line">
+              {months.map(([m, kg]) => (
+                <div key={m} className="flex h-44 w-14 flex-col items-center justify-end gap-1.5">
+                  <span className="t-caption text-ink2">{kg}</span>
+                  <span className="w-full bg-honey" style={{ height: `${(kg / max) * 75}%` }} />
+                </div>
+              ))}
+            </div>
+            <div aria-hidden className="mt-2 flex gap-4">
+              {months.map(([m]) => <span key={m} className="t-caption w-14 text-center text-ink3">{monthName(m)}</span>)}
+            </div>
+            </>
           )}
         </Card>
         <Card as="section" aria-labelledby="ring-h">
@@ -122,7 +123,7 @@ export default async function Dashboard() {
 
       <Card as="section" aria-labelledby="att-h" className="mt-6">
         <h2 id="att-h" className="t-h3">Needs attention</h2>
-        {anomalies.map((a) => <p key={a.farmId} role="status" className="t-small mt-4 rounded-md bg-honeybg p-3 text-amber-ink">{a.message}</p>)}
+        {anomalies.map((a) => <p key={a.farmId} role="status" className="t-small mt-4 rounded-[10px] bg-honeybg p-3 text-amber-ink">{a.message}</p>)}
         {attention.length === 0 ? <p className="t-small mt-4 text-ink2">All hives are stable. Keep routine inspections every two weeks.</p> : (
           <ul className="mt-4 divide-y divide-line border-t border-line">
             {attention.map((v) => {

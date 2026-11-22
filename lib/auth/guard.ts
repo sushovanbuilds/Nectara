@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { connection } from "next/server";
+import { hit, tooMany } from "@/lib/rate-limit";
 import { Action, can } from "./capabilities";
 import { COOKIE, type Session, verifySession } from "./session";
 
@@ -18,6 +19,10 @@ export async function currentSession(): Promise<Session | null> {
 export async function authorize(action: Action): Promise<{ ok: true; session: Session } | { ok: false; res: Response }> {
   const session = await currentSession();
   const status = decide(session, action);
-  if (status === 200) return { ok: true, session: session! };
+  if (status === 200) {
+    const v = hit("api", session!.uid);
+    if (!v.ok) return { ok: false, res: tooMany(v.retryAfter) };
+    return { ok: true, session: session! };
+  }
   return { ok: false, res: Response.json({ error: status === 401 ? "Sign in required" : "Not allowed for your role" }, { status }) };
 }

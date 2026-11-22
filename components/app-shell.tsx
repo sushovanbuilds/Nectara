@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import { isDemo } from "@/lib/demo";
+import { AskMount } from "./ai/ask-mount";
+import { TourMount } from "./tour/tour-mount";
 import { OfflineBanner } from "./ui/offline-banner";
 import { PageSkeleton } from "./ui/states";
 import { Toaster } from "./ui/toast";
@@ -20,11 +22,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Suspense fallback={<div aria-hidden className="h-14 border-b border-line" />}>
           <TopBar demo={isDemo()} />
         </Suspense>
+        <Suspense><TourMount placement="app" /></Suspense>
         <main id="main" tabIndex={-1} className="mx-auto max-w-[75rem] px-4 pb-28 pt-6 outline-none sm:px-6 md:pb-12 md:pt-8">
           <Suspense fallback={<PageSkeleton />}>{children}</Suspense>
         </main>
       </div>
       <CommandPalette />
+      <Suspense><AskMount /></Suspense>
       <Toaster />
     </div>
   );

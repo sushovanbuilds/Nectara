@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-export const alt = "Nectara. Proof in every jar. A phone shows a verified honey label with separate lab evidence and record seal.";
+export const alt = "Nectara: proof in every jar. A phone shows a verified honey label with separate lab evidence and record seal.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -24,7 +24,7 @@ export default async function Image() {
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: "#F6F1E7", padding: "64px 72px", position: "relative" }}>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: 640 }}>
-          <div style={{ display: "flex", fontFamily: "Fraunces", fontSize: 44, color: "#1F1D1A" }}>Nectara<span style={{ color: "#B8741A" }}>.</span></div>
+          <div style={{ display: "flex", fontFamily: "Fraunces", fontSize: 44, color: "#1F1D1A" }}>Nectara</div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontFamily: "Fraunces", fontSize: 92, lineHeight: 1, color: "#1F1D1A", letterSpacing: -2 }}>Proof in</div>
             <div style={{ display: "flex", fontFamily: "Fraunces", fontStyle: "italic", fontSize: 92, lineHeight: 1.05, color: "#8A5410", letterSpacing: -2 }}>every jar.</div>

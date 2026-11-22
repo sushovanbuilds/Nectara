@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { StateChip } from "@/components/hive-ui";
+import { TourMount } from "@/components/tour/tour-mount";
 import { FlowDiagram } from "@/components/landing/flow-diagram";
 import { HiveWhatIf } from "@/components/landing/hive-whatif";
 import { JourneyMap } from "@/components/landing/journey-map";
@@ -57,7 +59,7 @@ function EventLog() {
     return [o.hive, o.kg && `${o.kg} kg`, o.floralSource, o.collector].filter(Boolean).join(" · ");
   };
   return (
-    <figure className="mt-5 overflow-hidden rounded-md border border-line bg-ivory">
+    <figure className="mt-5 overflow-hidden rounded-[10px] border border-line bg-ivory">
       <figcaption className="t-caption border-b border-line px-3 py-2 text-ink3">Event log excerpt · HC-2026-00124 · sample data</figcaption>
       <ol className="divide-y divide-line font-mono text-[11.5px] leading-snug">
         {events.map((e) => (
@@ -93,6 +95,7 @@ export default function Landing() {
   return (
     <>
       <SiteNav />
+      <Suspense><TourMount /></Suspense>
       <main id="main" tabIndex={-1} className="outline-none">
         {/* Hero */}
         <section className="wrap overflow-x-clip pb-16 pt-10 md:pb-24 md:pt-16">
@@ -104,12 +107,17 @@ export default function Landing() {
               </p>
               <h1 className="t-hero mt-5 text-balance">Proof in every jar.</h1>
               <p className="t-body-lg mt-6 max-w-xl text-ink2">
-                Verified honey, from hive to shelf. Scan a jar to see where it came from, who handled it, and whether a lab actually tested it.
+                Scan the QR on a jar to see which hives the honey came from, who handled it after harvest, and whether a lab tested that exact batch.
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <Link href="/login" className={buttonClass("primary", "lg")}>Try the demo</Link>
-                <Link href="/verify/sample" className={buttonClass("secondary", "lg")}>Scan a sample jar</Link>
+                <Link href="/verify/sample" className={buttonClass("secondary", "lg")}>Check a sample jar</Link>
               </div>
+              {isDemo() && (
+                <p className="t-small mt-5 text-ink2">
+                  Judging or seeing it for the first time? <Link href="/tour" className="inline-flex min-h-11 items-center font-medium text-ink underline underline-offset-4 hover:text-amber-ink md:min-h-0">Take the guided tour</Link>
+                </p>
+              )}
             </div>
             <div className="col-span-12 flex justify-center lg:col-span-5">
               <div className="relative">
@@ -219,7 +227,7 @@ export default function Landing() {
                   <div className="p-5">
                     <div className="flex flex-wrap items-center gap-3"><p className="t-h3">A-105</p><StateChip state={hive.state} /><span className="t-small text-ink2">health {hive.score}/100 · trust level {hive.trustLevel}</span></div>
                     <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-                      {TILES.map(([k, v]) => <div key={k} className="rounded-md bg-panel p-3"><p className="t-caption text-ink3">{k}</p><p className="font-display text-lg">{v}</p></div>)}
+                      {TILES.map(([k, v]) => <div key={k} className="rounded-[10px] bg-panel p-3"><p className="t-caption text-ink3">{k}</p><p className="font-display text-lg">{v}</p></div>)}
                     </div>
                     <ul className="mt-4 space-y-1.5">
                       {hive.factors.slice(0, 3).map((f) => (
@@ -290,7 +298,7 @@ export default function Landing() {
         {/* Final call to action */}
         <section aria-labelledby="cta-h" className="border-t border-line bg-paper">
           <div className="wrap section-pad text-center">
-            <h2 id="cta-h" data-reveal className="t-h1">Nectara. <em className="text-amber-ink">Proof in every jar.</em></h2>
+            <h2 id="cta-h" data-reveal className="t-h1">Nectara<span className="block"><em className="text-amber-ink">Proof in every jar.</em></span></h2>
             <div data-reveal style={{ "--i": 1 } as React.CSSProperties} className="mt-9 flex flex-wrap justify-center gap-3">
               <Link href="/login" className={buttonClass("primary", "lg")}>Try the demo</Link>
               <Link href="/verify" className={buttonClass("secondary", "lg")}>Verify a jar</Link>
@@ -313,8 +321,8 @@ export default function Landing() {
           <div id="sources" className="md:col-span-2">
             <p className="t-caption font-medium text-ink2">Sources</p>
             <ul className="t-caption mt-1 space-y-1 text-ink3">
-              <li><a className="underline underline-offset-2 hover:text-ink" href={PIB.href} target="_blank" rel="noopener noreferrer">PIB fact sheet, National Beekeeping &amp; Honey Mission (production 2024; exports FY 2023-24)</a></li>
-              <li><a className="underline underline-offset-2 hover:text-ink" href={CSE.href} target="_blank" rel="noopener noreferrer">Centre for Science and Environment, honey adulteration investigation, Dec 2020</a></li>
+              <li><a className="inline-flex min-h-11 items-center underline underline-offset-2 hover:text-ink md:min-h-0" href={PIB.href} target="_blank" rel="noopener noreferrer">PIB fact sheet, National Beekeeping &amp; Honey Mission (production 2024; exports FY 2023-24)</a></li>
+              <li><a className="inline-flex min-h-11 items-center underline underline-offset-2 hover:text-ink md:min-h-0" href={CSE.href} target="_blank" rel="noopener noreferrer">Centre for Science and Environment, honey adulteration investigation, Dec 2020</a></li>
             </ul>
           </div>
         </div>

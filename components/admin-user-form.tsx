@@ -40,7 +40,7 @@ export function AdminUserForm({ orgs }: { orgs: { id: string; name: string; kind
       </div>
       <p className="text-xs text-ink3">Role follows the organisation: {role.toLowerCase()}.</p>
       {error && <p role="alert" className="text-sm text-terra">{error}</p>}
-      {ok && <p className="t-small rounded-md bg-greenbg px-3 py-2 text-green">{ok}</p>}
+      {ok && <p className="t-small rounded-[10px] bg-greenbg px-3 py-2 text-green">{ok}</p>}
       <button className={buttonClass("primary", "md")}>Create user</button>
     </form>
   );

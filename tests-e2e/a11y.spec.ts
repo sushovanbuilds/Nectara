@@ -5,7 +5,7 @@ import { login } from "./helpers";
 // WCAG 2.2 AA audit with axe on every main screen, at desktop and phone widths.
 // Fails on any serious or critical violation; prints everything else so the QA report can quote real numbers.
 const PAGES: { who?: string; path: string }[] = [
-  { path: "/" }, { path: "/login" }, { path: "/verify" }, { path: "/verify/sample" }, { path: "/design" },
+  { path: "/" }, { path: "/login" }, { path: "/verify" }, { path: "/verify/sample" }, { path: "/design" }, { path: "/tour" },
   { who: "ravi", path: "/dashboard" }, { who: "ravi", path: "/hives" }, { who: "ravi", path: "/hives/A-106" },
   { who: "ravi", path: "/batches" }, { who: "ravi", path: "/batches/HC-2026-00118" }, { who: "ravi", path: "/harvests/new" },
   { who: "lab", path: "/lab" }, { who: "processor", path: "/custody" }, { who: "processor", path: "/shipments" },

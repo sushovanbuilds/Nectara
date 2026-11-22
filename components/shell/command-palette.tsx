@@ -55,7 +55,7 @@ export function CommandPalette() {
       ref={dialog} aria-label="Search pages, batches and hives"
       onClose={() => { setQ(""); setActive(0); }}
       onClick={(e) => { if (e.target === dialog.current) dialog.current?.close(); }}
-      className="mx-auto mt-[12vh] w-[min(36rem,calc(100%-2rem))] rounded-[14px] border border-line2 bg-paper p-0 text-ink shadow-[0_24px_64px_-24px_rgba(31,29,26,0.45)] backdrop:bg-ink/35"
+      className="mx-auto mt-[12vh] w-[min(36rem,calc(100%-2rem))] rounded-[10px] border border-line2 bg-paper p-0 text-ink backdrop:bg-ink/35"
     >
       <div className="flex items-center gap-3 border-b border-line px-4">
         <Icon name="search" className="size-5 text-ink3" />
@@ -74,7 +74,7 @@ export function CommandPalette() {
             <div
               id={`palette-opt-${i}`} role="option" aria-selected={i === active}
               onMouseMove={() => setActive(i)} onClick={() => go(h)}
-              className={cx("flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-md px-3", i === active && "bg-panel")}
+              className={cx("flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-[10px] px-3", i === active && "bg-panel")}
             >
               <span className="t-small font-medium">{h.label}</span>
               {h.sub && <span className="t-caption truncate text-ink3">{h.sub}</span>}

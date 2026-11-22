@@ -35,7 +35,7 @@ export default async function Custody() {
               {mine.map(({ b }) => (
                 <li key={b.id} className="flex items-center justify-between gap-3 py-3">
                   <span className="t-small"><span className="font-medium">{b.code}</span> <span className="text-ink2">{b.honeyType}, {b.kg} kg</span></span>
-                  <Link href={`/batches/${b.code}`} className="t-small text-amber-ink underline">Record next step</Link>
+                  <Link href={`/batches/${b.code}`} className="t-small inline-flex min-h-11 items-center text-amber-ink underline">Record next step</Link>
                 </li>
               ))}
             </ul>

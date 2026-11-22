@@ -9,7 +9,7 @@ const fraunces = localFont({
 });
 const inter = localFont({ src: "./fonts/Inter.woff2", variable: "--font-inter", weight: "100 900", display: "swap" });
 
-const DESCRIPTION = "Honey traceability and smart beekeeping. Scan a jar to see where it came from, who handled it, and whether a lab actually tested it.";
+const DESCRIPTION = "Honey traceability and smart beekeeping. Scan the QR on a jar to see which hives the honey came from, who handled it after harvest, and whether a lab tested that exact batch.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
-        <a href="#main" className="sr-only rounded-md bg-ink px-4 py-2 text-ivory focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50">Skip to main content</a>
+        <a href="#main" className="sr-only rounded-[10px] bg-ink px-4 py-2 text-ivory focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50">Skip to main content</a>
         {children}
       </body>
     </html>

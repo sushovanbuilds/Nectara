@@ -19,6 +19,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
-    env: { NECTARA_DEMO: "true", AUTH_SECRET: "e2e-auth-secret", QR_SECRET: "e2e-qr-secret" },
+    // Empty AI keys win over .env, so e2e never spends the free quota and the AI paths stay deterministic.
+    env: { NECTARA_DEMO: "true", AUTH_SECRET: "e2e-auth-secret", QR_SECRET: "e2e-qr-secret", GEMINI_API_KEY: "", GROQ_API_KEY: "", RATE_LIMIT_MULTIPLIER: "100" },
   },
 });

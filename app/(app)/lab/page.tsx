@@ -48,7 +48,7 @@ export default async function Lab() {
                 ))}
               </ul>
             )}
-            <h3 className="t-small mt-6 font-medium">All batches</h3>
+            <h3 className="t-small mt-6 font-sans font-medium">All batches</h3>
             <ul className="mt-2 divide-y divide-line border-y border-line">
               {rows.map(({ b, d }) => (
                 <li key={b.id} className="t-small flex items-center justify-between gap-3 py-2">

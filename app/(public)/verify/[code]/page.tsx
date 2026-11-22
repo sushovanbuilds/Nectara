@@ -4,6 +4,7 @@ import { LabCard } from "@/components/lab-card";
 import { SealPanel } from "@/components/seal-panel";
 import { Button } from "@/components/ui/button";
 import { EVENT_LABEL, fmtDate } from "@/lib/format";
+import { clientIp, hit } from "@/lib/rate-limit";
 import { getRepo } from "@/lib/repo";
 import { verifyCode } from "@/lib/verify";
 
@@ -12,7 +13,7 @@ export const metadata = { title: "Verify · Nectara", robots: { index: false } }
 function Warning({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="space-y-6">
-      <section role="alert" aria-live="assertive" className="rounded-[14px] bg-terrabg p-6 text-terra">
+      <section role="alert" aria-live="assertive" className="rounded-[10px] bg-terrabg p-6 text-terra">
         <p className="t-small font-medium">Verification result</p>
         <h1 className="t-h1 mt-2">{title}</h1>
         <div className="t-body mt-3">{children}</div>
@@ -33,8 +34,23 @@ function Warning({ title, children }: { title: string; children: React.ReactNode
 export default async function VerifyResult(props: PageProps<"/verify/[code]">) {
   await connection();
   const { code } = await props.params;
+  const h = await headers();
+  // Each check records a scan and can raise alerts, so a flood from one network must not reach verifyCode.
+  const limited = hit("verify", clientIp(h));
+  if (!limited.ok) {
+    return (
+      <div className="space-y-6">
+        <section role="status" className="rounded-[10px] border border-line bg-paper p-6">
+          <p className="t-small font-medium text-ink2">Verification paused</p>
+          <h1 className="t-h1 mt-2">Too many checks</h1>
+          <p className="t-body mt-3 text-ink2">This network has checked a lot of labels in the last minute. Wait {limited.retryAfter} seconds, then scan again. Nothing is wrong with the label.</p>
+        </section>
+        <Button href="/verify" variant="secondary" size="lg" className="w-full">Back to the scanner</Button>
+      </div>
+    );
+  }
   // Coarse location only: the host's city header when present, never precise coordinates.
-  const raw = (await headers()).get("x-vercel-ip-city");
+  const raw = h.get("x-vercel-ip-city");
   const city = raw ? decodeURIComponent(raw) : null;
   const r = await verifyCode(await getRepo(), decodeURIComponent(code), { city });
 
@@ -48,7 +64,7 @@ export default async function VerifyResult(props: PageProps<"/verify/[code]">) {
   const v = r.view;
   return (
     <div className="space-y-4">
-      <section aria-live="polite" className="rounded-[14px] bg-greenbg p-6 text-green">
+      <section aria-live="polite" className="rounded-[10px] bg-greenbg p-6 text-green">
         <p className="t-small font-medium">Verification result</p>
         <h1 className="t-h1 mt-2">Label verified</h1>
         <p className="mt-2 font-mono text-sm">Batch {v.batchCode}</p>

@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Chip, STATUS_TONE } from "@/components/ui/chip";
 import { BrowserFrame, PhoneFrame } from "@/components/ui/frames";
 import { StatFigure } from "@/components/ui/stat-figure";
+import { Loader, PageSkeleton } from "@/components/ui/states";
 import { Wordmark } from "@/components/ui/wordmark";
 import { VerifyMini } from "@/components/landing/verify-mini";
 
@@ -72,8 +73,9 @@ export default function DesignPage() {
       <Section id="buttons" title="Buttons">
         <div className="flex flex-wrap items-center gap-3">
           <Button>Try the demo</Button>
-          <Button variant="secondary">Scan a sample jar</Button>
+          <Button variant="secondary">Check a sample jar</Button>
           <Button variant="ghost">Verify a jar</Button>
+          <Button variant="danger">Revoke label</Button>
           <Button size="sm" variant="secondary">Open case</Button>
           <Button size="lg">Issue QR label</Button>
           <Button disabled>Log harvest</Button>
@@ -120,12 +122,20 @@ export default function DesignPage() {
               <p className="t-small mt-1 text-ink2">Saharanpur Apiary · health 100/100 · sample data</p>
               <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {[["Temperature", "35.0°C"], ["Humidity", "57%"], ["Activity", "0.85"], ["Sound", "43 dB"]].map(([k, v]) => (
-                  <div key={k} className="rounded-md bg-panel p-3"><p className="t-caption text-ink3">{k}</p><p className="font-display text-lg">{v}</p></div>
+                  <div key={k} className="rounded-[10px] bg-panel p-3"><p className="t-caption text-ink3">{k}</p><p className="font-display text-lg">{v}</p></div>
                 ))}
               </div>
             </div>
           </BrowserFrame>
         </div>
+      </Section>
+
+      <Section id="loading" title="Loading states">
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Card><Loader label="Opening the scanner" className="py-10" /></Card>
+          <Card className="lg:col-span-2"><PageSkeleton variant="list" label="Specimen: list skeleton" /></Card>
+        </div>
+        <p className="t-small mt-3 text-ink2">Skeletons mirror each page type (dashboard, grid, list, detail, form, verify result). The loader is for waits with no known shape. Both stop moving under reduced motion.</p>
       </Section>
 
       <Section id="wordmark" title="Wordmark">

@@ -33,3 +33,13 @@ test("a broken record seal is shown plainly to staff", async ({ page }) => {
   await expect(page.locator("section", { has: page.getByRole("heading", { name: "Record seal" }) })).toContainText("Intact");
   await expect(page.getByText("Simulated ledger")).toBeVisible();
 });
+
+test("revoking a label asks first, and keeping it changes nothing", async ({ page }) => {
+  await login(page, "admin@demo.nectara");
+  await page.goto("/batches/HC-2026-00124");
+  await page.getByRole("button", { name: "Revoke label" }).click();
+  await expect(page.getByText("will see it as revoked")).toBeVisible();
+  await page.getByRole("button", { name: "Keep label" }).click();
+  await expect(page.getByRole("button", { name: "Revoke label" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Yes, revoke label" })).toHaveCount(0);
+});

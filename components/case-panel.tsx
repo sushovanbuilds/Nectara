@@ -38,7 +38,7 @@ export function CasePanel({ incidentId, cases }: { incidentId: string; cases: In
             </select>
           </label>
           {open.notes
-            ? <pre className="t-small max-h-72 overflow-y-auto whitespace-pre-wrap rounded-md bg-panel p-3 font-sans">{open.notes}</pre>
+            ? <pre className="t-small max-h-72 overflow-y-auto whitespace-pre-wrap rounded-[10px] bg-panel p-3 font-sans">{open.notes}</pre>
             : <p className="t-small text-ink3">No notes yet.</p>}
           <form onSubmit={(e) => { e.preventDefault(); post(`/api/cases/${open.id}`, { note }, "Note saved."); }}>
             <label className="t-body block" htmlFor="note">Add a note</label>

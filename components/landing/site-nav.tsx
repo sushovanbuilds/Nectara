@@ -7,7 +7,7 @@ import { Wordmark } from "@/components/ui/wordmark";
 import { cx } from "@/lib/cx";
 
 const LINKS = [
-  ["How it works", "#how"], ["For beekeepers", "#beekeepers"], ["For brands", "#brands"], ["Integrity", "#integrity"],
+  ["How it works", "#how"], ["For beekeepers", "#beekeepers"], ["For brands", "#brands"], ["Integrity", "#integrity"], ["Guided tour", "/tour"],
 ] as const;
 
 /** Landing navigation: gains a translucent background and hairline after 80px of scroll; a full-screen sheet on mobile. */

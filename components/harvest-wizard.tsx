@@ -95,7 +95,7 @@ export function HarvestWizard({ hives, today }: { hives: { code: string; farm: s
         {STEPS.map((label, i) => (
           <li key={label} aria-current={i === step ? "step" : undefined} className="min-w-0">
             <span className={cx("block h-1 rounded-full", i <= step ? "bg-amber" : "bg-line")} />
-            <span className={cx("t-caption mt-2 block truncate", i === step ? "font-medium text-ink" : "text-ink3")}>{i + 1}. {label}</span>
+            <span className={cx("t-caption mt-2 block leading-snug", i === step ? "font-medium text-ink" : "text-ink3")}>{i + 1}. {label}</span>
           </li>
         ))}
       </ol>
@@ -162,7 +162,7 @@ export function HarvestWizard({ hives, today }: { hives: { code: string; farm: s
           </dl>
         )}
 
-        {serverError && <p role="alert" className="t-small mt-4 rounded-md bg-terrabg px-3 py-2 text-terra">{serverError}</p>}
+        {serverError && <p role="alert" className="t-small mt-4 rounded-[10px] bg-terrabg px-3 py-2 text-terra">{serverError}</p>}
 
         <div className="mt-7 flex flex-wrap items-center justify-between gap-3">
           {step > 0 ? <button type="button" onClick={() => go(step - 1)} className={buttonClass("ghost", "lg")}>Back</button> : <span />}

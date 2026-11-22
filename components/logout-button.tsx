@@ -6,6 +6,6 @@ export async function signOut() {
   window.location.href = "/login";
 }
 
-export function LogoutButton({ className = "rounded-md border border-line px-3 py-1 text-ink2 hover:bg-panel", children = "Sign out" }: { className?: string; children?: React.ReactNode }) {
+export function LogoutButton({ className = "rounded-[10px] border border-line px-3 py-1 text-ink2 hover:bg-panel", children = "Sign out" }: { className?: string; children?: React.ReactNode }) {
   return <button type="button" className={className} onClick={signOut}>{children}</button>;
 }
