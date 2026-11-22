@@ -14,6 +14,8 @@ const DONE = (n: number) => `nectara-tour-done-${n}`;
 const read = (key: string, fallback: string) => { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } };
 const write = (key: string, v: string) => { try { localStorage.setItem(key, v); } catch {} };
 const subscribe = (cb: () => void) => { window.addEventListener("storage", cb); return () => window.removeEventListener("storage", cb); };
+const PHONE = "(max-width: 767px)";
+const subscribePhone = (cb: () => void) => { const m = window.matchMedia(PHONE); m.addEventListener("change", cb); return () => m.removeEventListener("change", cb); };
 
 /**
  * The guided tour, as a floating card: the stop number and title, a progress bar that glides from the previous stop,
@@ -23,17 +25,20 @@ const subscribe = (cb: () => void) => { window.addEventListener("storage", cb); 
 export function TourBar({ n, total, stop, roleLabel, titles, placement }: {
   n: number; total: number; stop: TourStop; roleLabel: string | null; titles: string[]; placement: "app" | "page";
 }) {
-  // Server snapshots match the first client frame; stored preferences apply right after hydration.
-  const storedOpen = useSyncExternalStore(subscribe, () => read(PREF, "shown"), () => "shown");
+  // Phones start collapsed to a slim bar so the page stays visible; desktop starts open. Each remembers its own choice.
+  // The server renders the phone (collapsed) frame, so phones never flash a tall card.
+  const phone = useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE).matches, () => true);
+  const prefKey = phone ? `${PREF}-phone` : PREF;
+  const storedOpen = useSyncExternalStore(subscribe, () => read(prefKey, ""), () => "");
   const storedDone = useSyncExternalStore(subscribe, () => read(DONE(n), ""), () => "");
   const [openOverride, setOpenOverride] = useState<boolean | null>(null);
   const [doneOverride, setDoneOverride] = useState<string | null>(null);
-  const open = openOverride ?? storedOpen !== "hidden";
+  const open = openOverride ?? (storedOpen === "shown" ? true : storedOpen === "hidden" ? false : !phone);
   const done = new Set((doneOverride ?? storedDone).split(",").filter(Boolean).map(Number));
   const allDone = done.size === stop.doThis.length;
   const last = n === total;
 
-  const toggleOpen = () => { write(PREF, open ? "hidden" : "shown"); setOpenOverride(!open); };
+  const toggleOpen = () => { write(prefKey, open ? "hidden" : "shown"); setOpenOverride(!open); };
   const toggleDone = (i: number) => {
     const next = new Set(done);
     if (next.has(i)) next.delete(i); else next.add(i);
@@ -63,18 +68,24 @@ export function TourBar({ n, total, stop, roleLabel, titles, placement }: {
         placement === "app" ? "bottom-[calc(4.25rem+env(safe-area-inset-bottom))] md:bottom-6" : "bottom-3 md:bottom-6",
       )}
     >
-      <div className="flex items-start gap-3 px-4 pt-3.5">
-        <span aria-hidden className="font-display text-3xl leading-none italic text-amber-ink tabular-nums">{String(n).padStart(2, "0")}</span>
+      <div className="flex items-start gap-3 px-4 pt-3.5 max-md:items-center max-md:gap-2 max-md:px-3 max-md:pt-2">
+        <span aria-hidden className="font-display text-3xl leading-none italic text-amber-ink tabular-nums max-md:text-2xl">{String(n).padStart(2, "0")}</span>
         <div className="min-w-0 flex-1">
-          <p className="t-caption text-ink3">Guided tour · stop {n} of {total}{roleLabel && <> · as {roleLabel}</>}</p>
-          <h2 className="t-small mt-0.5 font-sans font-medium text-ink">{stop.title}</h2>
+          <p className="t-caption text-ink3">Guided tour · stop {n} of {total}{roleLabel && <span className="max-md:hidden"> · as {roleLabel}</span>}</p>
+          <h2 className="t-small mt-0.5 font-sans font-medium text-ink max-md:truncate">{stop.title}</h2>
         </div>
-        <button type="button" onClick={toggleOpen} aria-expanded={open} aria-controls="tour-body" aria-label={open ? "Collapse tour steps" : "Expand tour steps"} className={buttonClass("ghost", "md", "-mr-2 -mt-1 px-2.5")}>
+        <button type="button" onClick={toggleOpen} aria-expanded={open} aria-controls="tour-body" aria-label={open ? "Collapse tour steps" : "Expand tour steps"} className={buttonClass("ghost", "md", "-mr-2 -mt-1 px-2.5 max-md:m-0 max-md:px-2")}>
           <Icon name="chevron" className={cx("tour-chev size-5", open ? "rotate-180" : "")} />
         </button>
+        {/* Phones, collapsed: Next sits in the slim bar so the way on is one tap away without opening it. */}
+        {!open && (
+          <form method="post" action={last ? "/tour/exit" : `/tour/${n + 1}`} className="md:hidden">
+            <button key={String(allDone)} className={buttonClass("primary", "md", cx("px-4", allDone && "tour-nudge"))}>{last ? "Finish" : "Next"}</button>
+          </form>
+        )}
       </div>
 
-      <div className="px-4 pt-3">
+      <div className={cx("px-4 pt-3 max-md:px-3 max-md:pt-2", !open && "max-md:pb-2.5")}>
         <div className="relative h-1 overflow-hidden rounded-full bg-line" aria-hidden>
           <span ref={fill} className="tour-fill absolute inset-y-0 left-0 rounded-full bg-amber" style={{ width: `${(n / total) * 100}%` }} />
         </div>
@@ -117,7 +128,7 @@ export function TourBar({ n, total, stop, roleLabel, titles, placement }: {
         </div>
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-2 border-t border-line px-4 py-3">
+      <div className={cx("mt-2 flex items-center justify-between gap-2 border-t border-line px-4 py-3 max-md:px-3 max-md:py-2", !open && "max-md:hidden")}>
         <div className="flex items-center gap-1">
           {n > 1 && <form method="post" action={`/tour/${n - 1}`}><button className={buttonClass("ghost", "md", "px-3")}>Back</button></form>}
           <Link href="/tour" className={buttonClass("ghost", "md", "px-3 text-ink2")}>All stops</Link>

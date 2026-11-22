@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "nectara-dev", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 3000 },
+    {
+      "name": "nectara-prod",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "start", "-p", "3111"],
+      "port": 3111,
+      "env": { "NECTARA_DEMO": "true", "AUTH_SECRET": "local-preview-auth", "QR_SECRET": "local-preview-qr" }
+    }
+  ]
+}
